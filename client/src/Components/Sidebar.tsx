@@ -74,7 +74,7 @@ const TreeNode: React.FC<{
   return (
     <div className="mb-4">
       <div
-        className="font-semibold text-xl text-blue-600 hover:text-blue-800 cursor-pointer flex items-center"
+        className="font-semibold text-xl sm:text-lg md:text-xl text-blue-400 hover:text-blue-600 cursor-pointer flex items-center transition-colors duration-200"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
@@ -87,7 +87,7 @@ const TreeNode: React.FC<{
         <span className="ml-2">{godown.name}</span>
       </div>
       {isOpen && (
-        <div className="ml-4 bg-gray-100 p-2 rounded-md">
+        <div className="ml-4 bg-gray-700 p-2 rounded-md">
           {subLocations.map((sub: Godown, index: number) => (
             <SubTreeNode
               key={index}
@@ -117,7 +117,7 @@ const SubTreeNode: React.FC<{
   return (
     <div className="mb-2">
       <div
-        className="font-medium text-lg text-gray-700 hover:text-gray-900 cursor-pointer flex items-center"
+        className="font-medium text-lg text-gray-200 hover:text-gray-100 cursor-pointer flex items-center transition-colors duration-200"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
@@ -130,7 +130,7 @@ const SubTreeNode: React.FC<{
         <span className="ml-2">{godown.name}</span>
       </div>
       {isOpen && (
-        <div className="ml-4 bg-gray-200 p-2 rounded-md">
+        <div className="ml-4 bg-gray-700 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4">
           {sectors.map((sec: Godown, index: number) => (
             <SectorNode
               key={index}
@@ -144,7 +144,7 @@ const SubTreeNode: React.FC<{
             {its?.map((item: Item, index: number) => (
               <div
                 key={index}
-                className="text-gray-600"
+                className="text-gray-300 hover:text-white cursor-pointer"
                 onClick={() => setMyItem(item)}
               >
                 {item.name}
@@ -169,7 +169,7 @@ const SectorNode: React.FC<{
   return (
     <div className="mb-2">
       <div
-        className="font-normal text-md text-gray-600 hover:text-gray-800 cursor-pointer flex items-center"
+        className="font-normal text-md text-gray-300 hover:text-gray-100 cursor-pointer flex items-center transition-colors duration-200"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
@@ -182,7 +182,7 @@ const SectorNode: React.FC<{
         <span className="ml-2">{godown.name}</span>
       </div>
       {isOpen && (
-        <div className="ml-4 bg-gray-300 p-2 rounded-md">
+        <div className="ml-4 bg-gray-600 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4 ">
           {zones.map((zone: Godown, index: number) => (
             <ZoneNode
               key={index}
@@ -195,7 +195,7 @@ const SectorNode: React.FC<{
             {its?.map((item: Item, index: number) => (
               <div
                 key={index}
-                className="text-gray-600"
+                className="text-gray-300 hover:text-white cursor-pointer"
                 onClick={() => setMyItem(item)}
               >
                 {item.name}
@@ -219,7 +219,7 @@ const ZoneNode: React.FC<{
   return (
     <div className="mb-2">
       <div
-        className="font-medium text-lg text-gray-700 hover:text-gray-900 cursor-pointer flex items-center"
+        className="font-medium text-sm text-gray-200 hover:text-gray-100 cursor-pointer flex items-center transition-colors duration-200"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
@@ -232,11 +232,11 @@ const ZoneNode: React.FC<{
         <span className="ml-2">{godown.name}</span>
       </div>
       {isOpen && (
-        <div className="ml-4 bg-gray-400 p-2 rounded-md">
+        <div className="ml-4 bg-gray-500 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4 ">
           {its?.map((item: Item, index: number) => (
             <div
               key={index}
-              className="text-gray-700"
+              className="text-gray-200 hover:text-white cursor-pointer"
               onClick={() => setMyItem(item)}
             >
               {item.name}
@@ -254,7 +254,8 @@ const Sidebar: React.FC<{
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
   itms?: Array<Item>;
   godowns?: Array<Godown>;
-}> = ({ width, onWidthChange, setMyItem, itms, godowns }) => {
+  isOpen: boolean;
+}> = ({ width, onWidthChange, setMyItem, itms, godowns, isOpen }) => {
   const obj = extractInfo(godowns ?? []);
   const items = extractItems(itms ?? []);
   const locations: Array<Godown> = obj.locs;
@@ -263,28 +264,34 @@ const Sidebar: React.FC<{
   const zones: Array<Array<Array<Array<Godown>>>> = obj.zones;
 
   return (
-    <div
-      className="bg-white shadow-lg p-4 h-screen relative"
-      style={{ width: `${width}px` }}
-    >
-      <div className="sidebar-content overflow-y-auto h-full">
-        {locations.map((location: Godown, index: number) => (
-          <TreeNode
-            key={index}
-            godown={location}
-            subLocations={subLocations[index]}
-            sector={sector[index]}
-            zones={zones[index]}
-            items={items}
-            setMyItem={setMyItem}
-          />
-        ))}
-      </div>
+    <div className="flex relative">
+      {/* Sidebar */}
       <div
-        className="cursor-col-resize w-1 bg-gray-300 h-full absolute right-0 top-0"
-        style={{ width: "10px" }}
-        onMouseDown={onWidthChange}
-      />
+        className={`bg-gray-800 shadow-lg p-4 h-screen relative text-gray-300 transition-transform transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+        style={{ width: `${width}px ` }}
+      >
+        <div className="sidebar-content overflow-y-auto h-full">
+          {locations.map((location, index) => (
+            <TreeNode
+              key={index}
+              godown={location}
+              subLocations={subLocations[index]}
+              sector={sector[index]}
+              zones={zones[index]}
+              items={items}
+              setMyItem={setMyItem}
+            />
+          ))}
+        </div>
+
+        <div
+          className="cursor-col-resize w-1 bg-gray-600 h-full absolute right-0 top-0 transition-all duration-200 ease-in-out hover:bg-gray-500"
+          style={{ width: "10px" }}
+          onMouseDown={onWidthChange}
+        />
+      </div>
     </div>
   );
 };
