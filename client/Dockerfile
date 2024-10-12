@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 5173 24678
 
 # Command to run the development server
-CMD ["npm", "run", "dev"]
+CMD npm run dev
