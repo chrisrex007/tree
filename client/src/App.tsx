@@ -68,6 +68,7 @@ const App: React.FC = () => {
   if (!isSmallScreen) {
     return (
       <div className="flex min-h-screen relative max-w-full">
+        {/* Sidebar */}
         <Sidebar
           width={sidebarWidth}
           onWidthChange={handleMouseDown}
@@ -76,12 +77,27 @@ const App: React.FC = () => {
           godowns={godowns}
           isOpen={isOpen}
         />
-        <Home myItem={myItem} />
+
+        {/* Home Component */}
         <div
-          className={`absolute top-4 left-4 text-white text-2xl cursor-pointer transition-transform duration-300 ${
+          className={`flex-1 transition-all duration-300 ${
+            isOpen ? `ml-${sidebarWidth}` : "ml-0"
+          }`}
+          style={{
+            width: isOpen ? `calc(100% - ${sidebarWidth}px)` : "100%", // Adjust width based on sidebar state
+          }}
+        >
+          <Home myItem={myItem} />
+        </div>
+
+        {/* Burger Icon */}
+        <div
+          className={`absolute top-8 left-4 text-white text-2xl cursor-pointer transition-transform duration-500 ${
             isOpen ? "rotate-90" : ""
           }`}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
         >
           <div className="w-8 h-1 bg-white mb-1"></div>
           <div className="w-8 h-1 bg-white mb-1"></div>
@@ -108,7 +124,7 @@ const App: React.FC = () => {
         </>
       )}
       <div
-        className={`absolute top-4 left-4 text-white text-2xl cursor-pointer transition-transform duration-300 ${
+        className={`absolute top-4 left-4 text-white text-2xl cursor-pointer transition-transform duration-500 ${
           isOpen ? "rotate-90" : ""
         }`}
         onClick={() => setIsOpen(!isOpen)}

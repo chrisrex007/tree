@@ -74,7 +74,7 @@ const TreeNode: React.FC<{
   return (
     <div className="mb-4">
       <div
-        className="font-semibold text-xl sm:text-lg md:text-xl text-blue-400 hover:text-blue-600 cursor-pointer flex items-center transition-colors duration-200"
+        className="font-semibold text-lg sm:text-xl md:text-2xl text-blue-400 hover:text-blue-600 cursor-pointer flex items-center transition-colors duration-200"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
@@ -117,7 +117,7 @@ const SubTreeNode: React.FC<{
   return (
     <div className="mb-2">
       <div
-        className="font-medium text-lg text-gray-200 hover:text-gray-100 cursor-pointer flex items-center transition-colors duration-200"
+        className="font-medium text-base sm:text-lg md:text-xl text-gray-200 hover:text-gray-100 cursor-pointer flex items-center transition-colors duration-200"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
@@ -262,17 +262,20 @@ const Sidebar: React.FC<{
   const subLocations: Array<Array<Godown>> = obj.subLocs;
   const sector: Array<Array<Array<Godown>>> = obj.sector;
   const zones: Array<Array<Array<Array<Godown>>>> = obj.zones;
+  const w = window.outerWidth < 768 ? window.outerWidth : width;
 
   return (
     <div className="flex relative">
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 shadow-lg p-4 h-screen relative text-gray-300 transition-transform transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`bg-gray-800 shadow-lg p-4 h-screen relative text-gray-300 transition-all duration-300 ease-in-out transform ${
+          isOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
         }`}
-        style={{ width: `${width}px ` }}
+        style={{
+          width: isOpen ? w : 0,
+        }}
       >
-        <div className="sidebar-content overflow-y-auto h-full">
+        <div className="sidebar-content overflow-y-auto h-full pt-12">
           {locations.map((location, index) => (
             <TreeNode
               key={index}
