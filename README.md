@@ -40,6 +40,9 @@
 - JSON is kept as the database of this project which is kept in the server directory. JSON data is fetched in the client from the server. Important Algorithms wherever required are used in the various components.
 - Small screen frontend is handled differently. App is responsive so you can visit through Mobile too.
 
+## Note:
+- Project has a login page which will open upon some valid [credentials](/client/src/Components/LoginPage.tsx) or a valid email domain (i.e. Gmail).
+
 ## Getting Started
 
 ### Prerequisites
