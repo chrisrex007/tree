@@ -10,7 +10,7 @@ const fetchData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/");
+        const response = await fetch("/api/data/");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -93,7 +93,7 @@ const App: React.FC = () => {
         {/* Burger Icon */}
         <div
           className={`absolute top-8 left-4 text-white text-2xl cursor-pointer transition-transform duration-500 ${
-            isOpen ? "rotate-90" : ""
+            isOpen ? "rotate-180" : ""
           }`}
           onClick={() => {
             setIsOpen(!isOpen);
@@ -125,7 +125,7 @@ const App: React.FC = () => {
       )}
       <div
         className={`absolute top-4 left-4 text-white text-2xl cursor-pointer transition-transform duration-500 ${
-          isOpen ? "rotate-90" : ""
+          isOpen ? "rotate-180" : ""
         }`}
         onClick={() => setIsOpen(!isOpen)}
       >

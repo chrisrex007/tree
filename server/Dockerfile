@@ -1,20 +1,20 @@
-# Node Image
-FROM node:alpine AS development
+# Use the official Node.js image as the base image
+FROM node:alpine
 
-# our working dir
-WORKDIR /back
+# Set the working directory
+WORKDIR /app
 
-# copying json file to our container
-COPY ./package*.json ./
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# installing packages
+# Install dependencies
 RUN npm install
 
-# copy our source code
+# Copy the rest of the application code
 COPY . .
 
-# Expose the port (default for Vite is 5173)
+# Expose the port the app runs on
 EXPOSE 3000
 
-# Command to run the development server
+# Command to run the application
 CMD ["node", "server.ts"]
