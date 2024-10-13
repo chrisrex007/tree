@@ -17,22 +17,18 @@ const Home: React.FC<{
     return (
       <div className="mt-2 text-xl">
         {Object.entries(attributes).map(([key, value]) => {
+          const textClass =
+            "text-black mb-2 text-base md:text-lg lg:text-xl hover:text-yellow-500 transition duration-300";
           if (key === "battery_required") {
             return (
-              <div
-                key={key}
-                className="text-black mb-2 text-base md:text-lg lg:text-xl"
-              >
+              <div key={key} className={textClass}>
                 <strong>{makeNiceText(key)}:</strong>{" "}
                 {value === true ? "Yes" : "No"}
               </div>
             );
           }
           return (
-            <div
-              key={key}
-              className="text-black mb-2 text-base md:text-lg lg:text-xl"
-            >
+            <div key={key} className={textClass}>
               <strong>{makeNiceText(key)}:</strong> {value}
             </div>
           );
@@ -44,18 +40,26 @@ const Home: React.FC<{
   return (
     <>
       <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold mb-10 pt-12">
+        <h1 className="text-2xl font-bold mb-10 pt-12 hover:text-yellow-500 transition duration-300">
           Welcome to the Dashboard
         </h1>
         <div className="w-full bg-slate-500 shadow-md rounded-lg p-4 flex flex-col md:flex-row">
           <div className="flex-1 inline-block">
-            <h2 className="text-black text-2xl font-bold mb-4">
+            <h2 className="text-black text-2xl font-bold mb-4 hover:text-yellow-500 transition duration-300">
               {myItem.name}
             </h2>
+            <div className="w-full flex justify-center">
+              <div className="inline">
+                <img
+                  src={myItem.image_url}
+                  alt={myItem.name}
+                  className="max-w-full max-h-96 rounded-md mb-4 object-contain transition-transform duration-300 transform hover:scale-105 hover:brightness-90"
+                />
+              </div>
+            </div>
 
             <div className="text-black mt-4">
               {Object.entries(myItem).map(([key, value]) => {
-                // We don't need to output name, url or any of the ids.
                 if (
                   key === "image_url" ||
                   key === "name" ||
@@ -78,7 +82,7 @@ const Home: React.FC<{
                     className="text-black mb-2 text-base md:text-lg lg:text-xl"
                     key={key}
                   >
-                    <strong className="font-semibold">
+                    <strong className="font-semibold hover:text-yellow-500 transition duration-300">
                       {makeNiceText(key)}
                     </strong>
                     : {value}
@@ -87,11 +91,6 @@ const Home: React.FC<{
               })}
             </div>
           </div>
-          <img
-            src={myItem.image_url}
-            alt={myItem.name}
-            className="ml-0 md:ml-12 max-w-full max-h-96 rounded-md mb-4 object-contain"
-          />
         </div>
       </div>
     </>
