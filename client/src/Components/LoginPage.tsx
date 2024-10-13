@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+// Page will either open by ValidCredentials or valid Email domain i.e. Gmail
 const validCredentials = {
   email: "person@gmail.com",
   password: "mypass23",
