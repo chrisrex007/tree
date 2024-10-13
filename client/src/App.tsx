@@ -10,7 +10,7 @@ const fetchData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/data/");
+        const response = await fetch("http://localhost:3000/api/data/");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -28,7 +28,7 @@ const fetchData = () => {
 const App: React.FC = () => {
   const [sidebarWidth, setSidebarWidth] = useState<number>(500); // Initial width
   const [myItem, setMyItem] = useState<Item>(dummyItem);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(true); // Track sidebar open/close state
 
   const res = fetchData();
