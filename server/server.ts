@@ -8,7 +8,7 @@ const port = 3000;
 
 app.use(cors());
 
-app.get("/", (req, res) => {
+app.get("/api/data", (req, res) => {
   console.log("server sent the data.");
   res.send({ items, godowns });
 });
