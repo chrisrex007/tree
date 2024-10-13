@@ -40,7 +40,7 @@ const Home: React.FC<{
   return (
     <>
       <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold mb-10 pt-12 hover:text-yellow-500 transition duration-300">
+        <h1 className="text-2xl font-bold mb-10 hover:text-yellow-500 transition duration-300">
           Welcome to the Dashboard
         </h1>
         <div className="w-full bg-slate-500 shadow-md rounded-lg p-4 flex flex-col md:flex-row">
