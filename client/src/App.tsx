@@ -10,7 +10,7 @@ const fetchData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/data/");
+        const response = await fetch("/api/data/");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -63,7 +63,7 @@ const App: React.FC = () => {
   }
 
   // Determine if screen is small
-  const isSmallScreen = window.innerWidth < 768; // You can adjust this value
+  const isSmallScreen = window.innerWidth < 1025;
 
   if (!isSmallScreen) {
     return (
@@ -94,7 +94,7 @@ const App: React.FC = () => {
         <div
           className={`absolute top-8 left-4 text-white text-2xl cursor-pointer transition-transform duration-500 ${
             isOpen ? "rotate-180" : ""
-          }`}
+          } hover:scale-150`}
           onClick={() => {
             setIsOpen(!isOpen);
           }}
