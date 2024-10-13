@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, { MouseEventHandler, useRef, useState } from "react";
 import { Godown, Item } from "./types";
 
 const extractInfo = (obj: Array<Godown>) => {
@@ -70,6 +70,7 @@ const TreeNode: React.FC<{
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
 }> = ({ godown, subLocations, sector, zones, items, setMyItem }) => {
   const [isOpen, setIsOpen] = useState(false);
+  // const contentRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="mb-4">
@@ -86,7 +87,12 @@ const TreeNode: React.FC<{
         </span>
         <span className="ml-2">{godown.name}</span>
       </div>
-      {isOpen && (
+      <div
+        // ref={contentRef}
+        className={`overflow-hidden transition-max-height duration-300 ease-in-out ${
+          isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
         <div className="ml-4 bg-gray-700 p-2 rounded-md">
           {subLocations.map((sub: Godown, index: number) => (
             <SubTreeNode
@@ -99,7 +105,7 @@ const TreeNode: React.FC<{
             />
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
@@ -112,6 +118,7 @@ const SubTreeNode: React.FC<{
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
 }> = ({ godown, sectors, zones, items, setMyItem }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const its = items.get(godown.id ?? "");
 
   return (
@@ -129,7 +136,12 @@ const SubTreeNode: React.FC<{
         </span>
         <span className="ml-2">{godown.name}</span>
       </div>
-      {isOpen && (
+      <div
+        ref={contentRef}
+        className={`overflow-hidden transition-max-height duration-300 ease-in-out ${
+          isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
         <div className="ml-4 bg-gray-700 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4">
           {sectors.map((sec: Godown, index: number) => (
             <SectorNode
@@ -152,7 +164,7 @@ const SubTreeNode: React.FC<{
             ))}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
@@ -164,6 +176,7 @@ const SectorNode: React.FC<{
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
 }> = ({ godown, zones, items, setMyItem }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const its = items.get(godown.id ?? "");
 
   return (
@@ -181,8 +194,13 @@ const SectorNode: React.FC<{
         </span>
         <span className="ml-2">{godown.name}</span>
       </div>
-      {isOpen && (
-        <div className="ml-4 bg-gray-600 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4 ">
+      <div
+        ref={contentRef}
+        className={`overflow-hidden transition-max-height duration-300 ease-in-out ${
+          isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="ml-4 bg-gray-600 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4">
           {zones.map((zone: Godown, index: number) => (
             <ZoneNode
               key={index}
@@ -203,7 +221,7 @@ const SectorNode: React.FC<{
             ))}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
@@ -214,6 +232,7 @@ const ZoneNode: React.FC<{
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
 }> = ({ godown, items, setMyItem }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
   const its = items.get(godown.id ?? "");
 
   return (
@@ -231,8 +250,13 @@ const ZoneNode: React.FC<{
         </span>
         <span className="ml-2">{godown.name}</span>
       </div>
-      {isOpen && (
-        <div className="ml-4 bg-gray-500 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4 ">
+      <div
+        ref={contentRef}
+        className={`overflow-hidden transition-max-height duration-300 ease-in-out ${
+          isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="ml-4 bg-gray-500 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4">
           {its?.map((item: Item, index: number) => (
             <div
               key={index}
@@ -243,7 +267,7 @@ const ZoneNode: React.FC<{
             </div>
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 };
@@ -277,15 +301,18 @@ const Sidebar: React.FC<{
       >
         <div className="sidebar-content overflow-y-auto h-full pt-12">
           {locations.map((location, index) => (
-            <TreeNode
-              key={index}
-              godown={location}
-              subLocations={subLocations[index]}
-              sector={sector[index]}
-              zones={zones[index]}
-              items={items}
-              setMyItem={setMyItem}
-            />
+            <div>
+              <TreeNode
+                key={index}
+                godown={location}
+                subLocations={subLocations[index]}
+                sector={sector[index]}
+                zones={zones[index]}
+                items={items}
+                setMyItem={setMyItem}
+              />
+              <hr className="border-gray-600 my-2" />
+            </div>
           ))}
         </div>
 
