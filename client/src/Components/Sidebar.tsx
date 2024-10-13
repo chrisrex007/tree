@@ -68,7 +68,16 @@ const TreeNode: React.FC<{
   zones: Array<Array<Array<Godown>>>;
   items: Map<string, Array<Item>>;
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
-}> = ({ godown, subLocations, sector, zones, items, setMyItem }) => {
+  filterCategory: string;
+}> = ({
+  godown,
+  subLocations,
+  sector,
+  zones,
+  items,
+  setMyItem,
+  filterCategory,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   // const contentRef = useRef<HTMLDivElement>(null);
 
@@ -102,6 +111,7 @@ const TreeNode: React.FC<{
               zones={zones[index]}
               items={items}
               setMyItem={setMyItem}
+              filterCategory={filterCategory}
             />
           ))}
         </div>
@@ -116,10 +126,16 @@ const SubTreeNode: React.FC<{
   zones: Array<Array<Godown>>;
   items: Map<string, Item[]>;
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
-}> = ({ godown, sectors, zones, items, setMyItem }) => {
+  filterCategory: string;
+}> = ({ godown, sectors, zones, items, setMyItem, filterCategory }) => {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
-  const its = items.get(godown.id ?? "");
+  // const its = items.get(godown.id ?? "");
+  const filteredItems = Array.from(items.get(godown.id ?? "") ?? []).filter(
+    (item) =>
+      filterCategory === "all" ||
+      item.category?.toLowerCase() === filterCategory
+  );
 
   return (
     <div className="mb-2">
@@ -150,10 +166,11 @@ const SubTreeNode: React.FC<{
               zones={zones[index]}
               items={items}
               setMyItem={setMyItem}
+              filterCategory={filterCategory}
             />
           ))}
           <div className="ml-4">
-            {its?.map((item: Item, index: number) => (
+            {filteredItems?.map((item: Item, index: number) => (
               <div
                 key={index}
                 className="text-gray-300 hover:text-white cursor-pointer"
@@ -174,10 +191,16 @@ const SectorNode: React.FC<{
   zones: Array<Godown>;
   items: Map<string, Item[]>;
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
-}> = ({ godown, zones, items, setMyItem }) => {
+  filterCategory: string;
+}> = ({ godown, zones, items, setMyItem, filterCategory }) => {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
-  const its = items.get(godown.id ?? "");
+  // const its = items.get(godown.id ?? "");
+  const filteredItems = Array.from(items.get(godown.id ?? "") ?? []).filter(
+    (item) =>
+      filterCategory === "all" ||
+      item.category?.toLowerCase() === filterCategory
+  );
 
   return (
     <div className="mb-2">
@@ -207,10 +230,11 @@ const SectorNode: React.FC<{
               godown={zone}
               items={items}
               setMyItem={setMyItem}
+              filterCategory={filterCategory}
             />
           ))}
           <div className="ml-4">
-            {its?.map((item: Item, index: number) => (
+            {filteredItems?.map((item: Item, index: number) => (
               <div
                 key={index}
                 className="text-gray-300 hover:text-white cursor-pointer"
@@ -230,10 +254,16 @@ const ZoneNode: React.FC<{
   godown: Godown;
   items: Map<string, Item[]>;
   setMyItem: React.Dispatch<React.SetStateAction<Item>>;
-}> = ({ godown, items, setMyItem }) => {
+  filterCategory: string;
+}> = ({ godown, items, setMyItem, filterCategory }) => {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
-  const its = items.get(godown.id ?? "");
+  // const its = items.get(godown.id ?? "");
+  const filteredItems = Array.from(items.get(godown.id ?? "") ?? []).filter(
+    (item) =>
+      filterCategory === "all" ||
+      item.category?.toLowerCase() === filterCategory
+  );
 
   return (
     <div className="mb-2">
@@ -257,10 +287,10 @@ const ZoneNode: React.FC<{
         }`}
       >
         <div className="ml-4 bg-gray-500 p-2 rounded-md sm:ml-2 lg:ml-4 m:p-2 md:p-3 lg:p-4">
-          {its?.map((item: Item, index: number) => (
+          {filteredItems?.map((item: Item, index: number) => (
             <div
               key={index}
-              className="text-gray-200 hover:text-white cursor-pointer"
+              className="text-gray-300 hover:text-white cursor-pointer"
               onClick={() => setMyItem(item)}
             >
               {item.name}
@@ -287,6 +317,7 @@ const Sidebar: React.FC<{
   const sector: Array<Array<Array<Godown>>> = obj.sector;
   const zones: Array<Array<Array<Array<Godown>>>> = obj.zones;
   const w = window.outerWidth < 768 ? window.outerWidth : width;
+  const [filterCategory, setFilterCategory] = useState("all");
 
   return (
     <div className="flex relative">
@@ -299,6 +330,22 @@ const Sidebar: React.FC<{
           width: isOpen ? w : 0,
         }}
       >
+        <div className="pt-12">
+          <label className="block text-gray-200 mb-2">
+            Filter by Category:
+          </label>
+          <select
+            className="w-full p-2 bg-gray-700 text-gray-300 rounded-md"
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+          >
+            <option value="all">All</option>
+            <option value="toys">Toys</option>
+            <option value="electronics">Electronics</option>
+            <option value="furniture">Furniture</option>
+            <option value="clothing">Clothing</option>
+          </select>
+        </div>
         <div className="sidebar-content overflow-y-auto h-full pt-12">
           {locations.map((location, index) => (
             <div>
@@ -310,6 +357,7 @@ const Sidebar: React.FC<{
                 zones={zones[index]}
                 items={items}
                 setMyItem={setMyItem}
+                filterCategory={filterCategory}
               />
               <hr className="border-gray-600 my-2" />
             </div>
