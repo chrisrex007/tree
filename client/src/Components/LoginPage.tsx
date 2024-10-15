@@ -1,32 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext"; // Adjust the import based on your structure
 
-// Page will either open by ValidCredentials or valid Email domain i.e. Gmail
-const validCredentials = {
-  email: "person@gmail.com",
-  password: "mypass23",
-};
-const validEmailDomain = "@gmail.com";
-
-interface LoginPageProps {
-  onLogin: () => void;
-}
-
-const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      (email === validCredentials.email &&
-        password === validCredentials.password) ||
-      email.endsWith(validEmailDomain)
-    ) {
-      onLogin(); // Set Login to true
-      setError("");
-    } else {
-      setError("Invalid email or password. Please try again.");
+    try {
+      await login(email, password);
+      navigate("/app");
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred.");
     }
   };
 

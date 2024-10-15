@@ -1,7 +1,6 @@
 import React, { useState, MouseEvent, useEffect } from "react";
 import Home from "./Components/Home";
 import Sidebar from "./Components/Sidebar";
-import LoginPage from "./Components/LoginPage";
 import { totalObject, Item } from "./Components/types";
 import dummyItem from "./Components/dummyItem";
 
@@ -10,7 +9,7 @@ const fetchData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/data/");
+        const response = await fetch("/api/data");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -25,10 +24,9 @@ const fetchData = () => {
   return result;
 };
 
-const App: React.FC = () => {
+const MainApp: React.FC = () => {
   const [sidebarWidth, setSidebarWidth] = useState<number>(500); // Initial width
   const [myItem, setMyItem] = useState<Item>(dummyItem);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(true); // Track sidebar open/close state
 
   const res = fetchData();
@@ -58,9 +56,6 @@ const App: React.FC = () => {
   };
 
   // Show the login page if the user is not logged in
-  if (!isLoggedIn) {
-    return <LoginPage onLogin={() => setIsLoggedIn(true)} />;
-  }
 
   // Determine if screen is small
   const isSmallScreen = window.innerWidth < 1025;
@@ -137,4 +132,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default MainApp;
