@@ -42,6 +42,7 @@
 
 ## Note:
 - Project has a login page which will open upon some valid [credentials](/client/src/Components/LoginPage.tsx) or a valid email domain (i.e. Gmail).
+- (example: id: xyz@gmail.com pass:anything)
 
 ## Getting Started
 
