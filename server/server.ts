@@ -7,8 +7,8 @@ const app = express();
 const port = 3000;
 
 const validCredentials = {
-  email: "person@gmail.com",
-  password: "mypass23",
+  email: "xyz@gmail.com",
+  password: "anything",
 };
 const validEmailDomain = "@gmail.com";
 
