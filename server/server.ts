@@ -23,12 +23,13 @@ app.get("/api/data", (req, res) => {
 app.post("/api/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  const token = "xyz";
   if (
     (email === validCredentials.email &&
       password === validCredentials.password) ||
     email.endsWith(validEmailDomain)
   ) {
-    res.send({ success: true });
+    res.send({ success: true, token });
   } else {
     res.send({
       success: false,
