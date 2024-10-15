@@ -1,5 +1,6 @@
 import React from "react";
 import { Item, ItemAttributes } from "./types";
+import { useAuth } from "../AuthContext";
 
 const makeNiceText = (input: string) => {
   let result = input.replace(/_/g, " ");
@@ -11,6 +12,7 @@ const makeNiceText = (input: string) => {
 const Home: React.FC<{
   myItem: Item;
 }> = ({ myItem }) => {
+  const { logout } = useAuth();
   const renderAttributes = (attributes?: ItemAttributes) => {
     if (!attributes) return null;
 
@@ -37,12 +39,29 @@ const Home: React.FC<{
     );
   };
 
+  const handleLogout = () => {
+    try {
+      logout();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
       <div className="flex-1 p-6">
-        <h1 className="text-2xl font-bold mb-10 hover:text-yellow-500 transition duration-300">
-          Welcome to the Dashboard
-        </h1>
+        <div className="flex justify-between items-center mb-10">
+          <h1 className="text-2xl font-bold hover:text-yellow-500 transition duration-300">
+            Welcome to the Dashboard
+          </h1>
+          <button
+            className="bg-red-600 text-white font-semibold py-2 px-4 rounded hover:bg-red-500 transition duration-300"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        </div>
+
         <div className="w-full bg-slate-500 shadow-md rounded-lg p-4 flex flex-col md:flex-row">
           <div className="flex-1 inline-block">
             <h2 className="text-black text-2xl font-bold mb-4 hover:text-yellow-500 transition duration-300">
