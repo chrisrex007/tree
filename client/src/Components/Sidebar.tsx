@@ -348,7 +348,7 @@ const Sidebar: React.FC<{
         </div>
         <div className="sidebar-content overflow-y-auto h-full pt-12">
           {locations.map((location, index) => (
-            <div>
+            <div key={location.id}>
               <TreeNode
                 key={index}
                 godown={location}

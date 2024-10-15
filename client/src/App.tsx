@@ -24,7 +24,7 @@ const fetchData = () => {
   return result;
 };
 
-const MainApp: React.FC = () => {
+const App: React.FC = () => {
   const [sidebarWidth, setSidebarWidth] = useState<number>(500); // Initial width
   const [myItem, setMyItem] = useState<Item>(dummyItem);
   const [isOpen, setIsOpen] = useState(true); // Track sidebar open/close state
@@ -132,4 +132,4 @@ const MainApp: React.FC = () => {
   );
 };
 
-export default MainApp;
+export default App;
