@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react";
+
 export interface Godown {
   id?: string;
   name: string;
@@ -53,4 +55,15 @@ export interface Item {
 export interface totalObject {
   items: Array<Item>;
   godowns: Array<Godown>;
+}
+
+export interface MainAppProps {
+  sidebarWidth: number;
+  handleMouseDown: (event: MouseEventHandler<HTMLDivElement>) => void;
+  setMyItem: (item: Item) => void; // Adjust based on your Item type
+  itms: Item[]; // Assuming Item is an array of your item type
+  godowns: Godown[]; // Assuming Godown is your type for godowns
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+  myItem: Item; // Assuming this is the type for myItem
 }
